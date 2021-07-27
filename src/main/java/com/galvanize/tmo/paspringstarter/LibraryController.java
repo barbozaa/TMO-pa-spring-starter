@@ -27,9 +27,11 @@ public class LibraryController {
     }
 
     @GetMapping("/api/books")
-    public List getBooksSorted() {
+    public BooksDTO getBooksSorted() {
         Collections.sort(booksCache, Comparator.comparing(Books::getTitle));
-        return booksCache;
+        BooksDTO book = new BooksDTO();
+        book.setBooks(booksCache);
+        return book;
     }
 
     @DeleteMapping("/api/books")
