@@ -5,8 +5,8 @@ import jdk.nashorn.internal.ir.annotations.Ignore;
 public class Books {
     @Ignore
     Integer id;
-    String title;
     String author;
+    String title;
     Integer datePublished;
 
     public Integer getId() {
