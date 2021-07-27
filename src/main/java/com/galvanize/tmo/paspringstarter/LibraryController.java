@@ -17,24 +17,24 @@ public class LibraryController {
     }
 
     @RequestMapping(value = "/api/books", method = RequestMethod.POST)
-    public Books getBooks(@RequestBody Books book) {
-        if(StringUtils.hasLength(book.getAuthor()) && book.getDatePublished() > 0){
+    public ResponseEntity<Books> getBooks(@RequestBody Books book) {
+        if (StringUtils.hasLength(book.getAuthor()) && book.getDatePublished() > 0) {
             book.setId(booksCache.size() + 1);
             booksCache.add(book);
-            return book;
+            return new ResponseEntity<Books>(book, HttpStatus.CREATED);
         }
-        return new Books();
+        return new ResponseEntity<Books>(new Books(), HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/api/books")
-    public List getBooksSorted(){
+    public List getBooksSorted() {
         Collections.sort(booksCache, Comparator.comparing(Books::getTitle));
         return booksCache;
     }
 
-        @DeleteMapping("/api/books")
-        public ResponseEntity<Void> deleteAllBooks(){
-            booksCache.clear();
-            return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
-        }
+    @DeleteMapping("/api/books")
+    public ResponseEntity<Void> deleteAllBooks() {
+        booksCache.clear();
+        return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+    }
 }
